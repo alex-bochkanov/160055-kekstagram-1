@@ -1,7 +1,7 @@
 import {isEscapeKey} from './popup.js';
 import {registerPristineValidator} from './form-validator.js';
 import {registerFilters, onHandlerFilterNone, removeFiltersEvents, removeButtonsScaleEvents, destroyNoUiSlider} from './filters.js';
-import {setUploadFormSubmit} from './form-validator.js';
+import {setUploadFormSubmit, resetPristineValidator} from './form-validator.js';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
@@ -14,6 +14,7 @@ const descriptionInput = document.querySelector('.text__description');
 const uploadFileButton = document.getElementById('upload-file');
 const closeFilterButton = document.getElementById('upload-cancel');
 const previewPicture = document.querySelector('.img-upload__preview img');
+const effectsPreviewPicture = document.querySelectorAll('.effects__preview');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt) && !document.body.querySelector('.error')) {
@@ -53,6 +54,9 @@ const registerUploadFileButton = () => {
     const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
     if (matches) {
       previewPicture.src = URL.createObjectURL(file);
+      effectsPreviewPicture.forEach((item) => {
+        item.style.backgroundImage = `url(${previewPicture.src})`;
+      });
     }
     openPictureFilterModal();
   });
@@ -69,6 +73,7 @@ function closePictureFilterModal() {
   descriptionInput.removeEventListener('focus', focusInput);
   descriptionInput.removeEventListener('blur', blurInput);
   pictureForm.reset();
+  resetPristineValidator();
   removeButtonsScaleEvents();
   onHandlerFilterNone();
   destroyNoUiSlider();

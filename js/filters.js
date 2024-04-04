@@ -21,26 +21,28 @@ let procentScaleValue = 100;
 let procentHalf = 0;
 
 const onHandlerButtonPlus = () => {
-  procentScaleValue = procentScaleValue + 25;
-  procentHalf = procentScaleValue / 100;
-  valueElement.value = `${procentScaleValue}%`;
-  scaleElement.style.transform = `scale(${procentHalf})`;
-  buttonPlus.classList.remove('disabled');
-  buttonMinus.classList.remove('disabled');
   if (procentScaleValue === 100) {
     buttonPlus.classList.add('disabled');
+  } else {
+    procentScaleValue = procentScaleValue + 25;
+    procentHalf = procentScaleValue / 100;
+    valueElement.value = `${procentScaleValue}%`;
+    scaleElement.style.transform = `scale(${procentHalf})`;
+    buttonPlus.classList.remove('disabled');
+    buttonMinus.classList.remove('disabled');
   }
 };
 
 const onHandlerButtonMinus = () => {
-  procentScaleValue = procentScaleValue - 25;
-  procentHalf = procentScaleValue / 100;
-  valueElement.value = `${procentScaleValue}%`;
-  scaleElement.style.transform = `scale(${procentHalf})`;
-  buttonMinus.classList.remove('disabled');
-  buttonPlus.classList.remove('disabled');
   if (procentScaleValue === 25) {
     buttonMinus.classList.add('disabled');
+  } else {
+    procentScaleValue = procentScaleValue - 25;
+    procentHalf = procentScaleValue / 100;
+    valueElement.value = `${procentScaleValue}%`;
+    scaleElement.style.transform = `scale(${procentHalf})`;
+    buttonMinus.classList.remove('disabled');
+    buttonPlus.classList.remove('disabled');
   }
 };
 
@@ -72,6 +74,17 @@ const createNoUiSlider = () => {
     start: 100,
     step: 1,
     connect: 'lower',
+    format: {
+      to: function (value) {
+        if (Number.isInteger(value)) {
+          return value.toFixed(0);
+        }
+        return value.toFixed(1);
+      },
+      from: function (value) {
+        return parseFloat(value);
+      },
+    },
   });
 };
 
