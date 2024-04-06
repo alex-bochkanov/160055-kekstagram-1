@@ -48,6 +48,7 @@ const onHandlerButtonMinus = () => {
 
 const registerButtonsEventsScale = () => {
   buttonPlus.classList.add('disabled');
+  procentScaleValue = 100;
   valueElement.value = `${procentScaleValue}%`;
   scaleElement.style.transform = 'scale(1)';
 

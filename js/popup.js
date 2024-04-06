@@ -56,9 +56,9 @@ const renderCommentsBlock = () => {
   });
 
   if (countComments <= comments.length) {
-    commentsCount.innerHTML = `${countComments} из <span class="comments-count">${comments.length}</span> комментариев`;
+    commentsCount.innerHTML = `<span class="social__comment-shown-count">${countComments}</span> из <span class="comments-count social__comment-total-count">${comments.length}</span> комментариев`;
   } else {
-    commentsCount.innerHTML = `${comments.length} из <span class="comments-count">${comments.length}</span> комментариев`;
+    commentsCount.innerHTML = `<span class="social__comment-shown-count">${comments.length}</span> из <span class="comments-count social__comment-total-count">${comments.length}</span> комментариев`;
   }
 
   if (countComments >= comments.length) {
