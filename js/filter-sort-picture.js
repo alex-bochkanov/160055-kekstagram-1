@@ -2,6 +2,7 @@ import { addPictures, clearPictureContainer } from './picture-render.js';
 import { getRandomInteger, debounce } from './utils.js';
 
 const RENDER_DELAY = 500;
+const debounceWrapper = debounce(addPictures, RENDER_DELAY);
 
 const BUTTONS_ID = {
   default: 'filter-default',
@@ -43,8 +44,6 @@ const addFiltersButtons = () => {
   imgSortFilters.classList.remove('img-filters--inactive');
   imgSortFilters.classList.remove('visually-hidden');
 };
-
-const debounceWrapper = debounce(addPictures, RENDER_DELAY);
 
 const registerFilterEvent = (pictures) => {
   addPictures(pictures);

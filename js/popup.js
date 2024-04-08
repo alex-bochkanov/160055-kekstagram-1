@@ -1,3 +1,4 @@
+const COMMENT_PER_PORTION = 5;
 const bodyClassPopup = document.querySelector('body');
 const pictureModal = document.querySelector('.big-picture');
 const closeModalClass = pictureModal.querySelector('.big-picture__cancel');
@@ -5,16 +6,16 @@ const commentLoaderButton = document.querySelector('.comments-loader');
 const commentsCount = document.querySelector('.social__comment-count');
 const bigPictureCommentsBlock = document.querySelector('.social__comments');
 const isEscapeKey = (evt) => evt.key === 'Escape';
+
+let comments = [];
+let countComments = 5;
+
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closePictureModal();
   }
 };
-const COMMENT_PER_PORTION = 5;
-
-let comments = [];
-let countComments = 5;
 
 closeModalClass.addEventListener('click', () => {
   closePictureModal();
