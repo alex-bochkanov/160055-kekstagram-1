@@ -44,29 +44,31 @@ const addFiltersButtons = () => {
   imgSortFilters.classList.remove('visually-hidden');
 };
 
+const debounceWrapper = debounce(addPictures, RENDER_DELAY);
+
 const registerFilterEvent = (pictures) => {
   addPictures(pictures);
   imgSortFilters.querySelectorAll('.img-filters__button').forEach((item) => {
-    item.addEventListener('click', debounce(() => {
+    item.addEventListener('click', () => {
       toggleActiveButton(item);
       clearPictureContainer();
       switch (item.getAttribute('id')) {
         case BUTTONS_ID.default:
-          addPictures(pictures);
+          debounceWrapper(pictures);
           break;
 
         case BUTTONS_ID.random:
-          addPictures(pictures.slice().sort(randomSorting).slice(0, 10));
+          debounceWrapper(pictures.slice().sort(randomSorting).slice(0, 10));
           break;
 
         case BUTTONS_ID.discussed:
-          addPictures(pictures.slice().sort(compareComments));
+          debounceWrapper(pictures.slice().sort(compareComments));
           break;
 
         default:
           throw new Error('Такого фильтра не существует.');
       }
-    }, RENDER_DELAY));
+    });
   });
   addFiltersButtons();
 };
