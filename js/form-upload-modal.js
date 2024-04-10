@@ -2,7 +2,7 @@ import {isEscapeKey} from './popup.js';
 import {registerPristineValidator} from './form-validator.js';
 import {registerFilters, onHandlerFilterNone, removeFiltersEvents, removeButtonsScaleEvents, destroyNoUiSlider} from './filters.js';
 import {setUploadFormSubmit, resetPristineValidator} from './form-validator.js';
-import {bodyElement, pictureFilterModal, pictureUploadForm, hashtagInput, descriptionInput, uploadFileButton, closeFilterButton, scaleElement, effectsPreviewPicture} from './DOM-consts.js';
+import {bodyElement, pictureFilterModal, pictureUploadForm, hashtagInput, descriptionInput, uploadFileButton, closeFilterButton, scaleElement, effectsPreviewPicture} from './dom-consts.js';
 
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];

@@ -1,6 +1,6 @@
 import { addPictures, clearPictureContainer } from './picture-render.js';
 import { getRandomInteger, debounce } from './utils.js';
-import { imgSortFilters } from './DOM-consts.js';
+import { imgSortFilters } from './dom-consts.js';
 
 const RENDER_DELAY = 500;
 const MIN_INTEGER_VALUE = 0;
@@ -13,7 +13,9 @@ const ButtonsId = {
   DISCUSSED: 'filter-discussed',
 };
 
-const debounceWrapper = debounce(addPictures, RENDER_DELAY);
+const debounceWrapper = debounce((pictures) => {
+  clearPictureContainer(); addPictures(pictures);
+}, RENDER_DELAY);
 
 const getCommentsValue = (picture) => {
   const commentsValue = picture.comments.length;
