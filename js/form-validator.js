@@ -1,6 +1,6 @@
 import {sendData} from './get-post-api.js';
 import {showSuccess, showAlert} from './utils.js';
-import {pictureFilterModal, pictureUploadForm, submitButton} from './dom-consts.js';
+import {pictureFilterModal, pictureUploadForm, submitButton} from './dom-constants.js';
 
 const HASHTAG_REG_EXP = /^#[a-zа-яё0-9]{1,19}$/i;
 const MIN_HASHTAG_VALUE = 0;

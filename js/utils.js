@@ -1,4 +1,4 @@
-import {successTemplate, errorTemplate} from './dom-consts.js';
+import {successTemplate, errorTemplate} from './dom-constants.js';
 
 const ERROR_TIMEOUT_VALUE = 5000;
 

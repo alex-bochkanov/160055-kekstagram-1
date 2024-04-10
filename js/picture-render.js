@@ -1,5 +1,5 @@
 import {openPictureModal} from './popup.js';
-import {picturesRoot, pictureTemplate} from './dom-consts.js';
+import {picturesRoot, pictureTemplate} from './dom-constants.js';
 
 const createPicture = ({url, likes, comments, description}) => {
   const pictureElement = pictureTemplate.cloneNode(true);

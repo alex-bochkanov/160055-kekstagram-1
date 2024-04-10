@@ -1,4 +1,4 @@
-import {bodyElement, pictureModal, closeModalButton, commentLoaderButton, commentsCount, bigPictureCommentsBlock, bigPictureSrc, bigPictureLikes, bigPictureDescription} from './dom-consts.js';
+import {bodyElement, pictureModal, closeModalButton, commentLoaderButton, commentsCount, bigPictureCommentsBlock, bigPictureSrc, bigPictureLikes, bigPictureDescription} from './dom-constants.js';
 import {isEscapeKey} from './utils.js';
 
 

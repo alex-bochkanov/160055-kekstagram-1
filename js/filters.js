@@ -1,5 +1,5 @@
 import {SETTING_FILTER_CHROME, SETTING_FILTER_SEPIA, SETTING_FILTER_MARVIN, SETTING_FILTER_PHOBOS, SETTING_FILTER_HEAT} from './filter-settings.js';
-import {scaleElement, valueElement, buttonMinus, buttonPlus, sliderBlock, sliderElement, sliderEffectLevel, filterChrome, filterSepia, filterMarvin, filterPhobos, filterHeat, filterNone} from './dom-consts.js';
+import {scaleElement, valueElement, buttonMinus, buttonPlus, sliderBlock, sliderElement, sliderEffectLevel, filterChrome, filterSepia, filterMarvin, filterPhobos, filterHeat, filterNone} from './dom-constants.js';
 
 const SCALE_STEP_VALUE = 25;
 const MIN_SCALE_VALUE = 25;
