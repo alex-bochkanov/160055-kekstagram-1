@@ -1,16 +1,19 @@
 import { addPictures, clearPictureContainer } from './picture-render.js';
 import { getRandomInteger, debounce } from './utils.js';
+import { imgSortFilters } from './DOM-consts.js';
 
 const RENDER_DELAY = 500;
-const debounceWrapper = debounce(addPictures, RENDER_DELAY);
-
-const BUTTONS_ID = {
-  default: 'filter-default',
-  random: 'filter-random',
-  discussed: 'filter-discussed',
+const MIN_INTEGER_VALUE = 0;
+const MAX_INTEGER_VALUE = 100;
+const RANDOM_FILTER_BEGIN_SLICE = 0;
+const RANDOM_FILTER_SLICE_VALUE = 10;
+const ButtonsId = {
+  DEFAULT: 'filter-default',
+  RANDOM: 'filter-random',
+  DISCUSSED: 'filter-discussed',
 };
 
-const imgSortFilters = document.querySelector('.img-filters');
+const debounceWrapper = debounce(addPictures, RENDER_DELAY);
 
 const getCommentsValue = (picture) => {
   const commentsValue = picture.comments.length;
@@ -24,8 +27,8 @@ const compareComments = (commentsValueA, commentsValueB) => {
 };
 
 const randomSorting = () => {
-  const ARandom = getRandomInteger(0, 100);
-  const BRandom = getRandomInteger(0, 100);
+  const ARandom = getRandomInteger(MIN_INTEGER_VALUE, MAX_INTEGER_VALUE);
+  const BRandom = getRandomInteger(MIN_INTEGER_VALUE, MAX_INTEGER_VALUE);
   if (ARandom > BRandom) {
     return 1;
   }
@@ -52,15 +55,15 @@ const registerFilterEvent = (pictures) => {
       toggleActiveButton(item);
       clearPictureContainer();
       switch (item.getAttribute('id')) {
-        case BUTTONS_ID.default:
+        case ButtonsId.DEFAULT:
           debounceWrapper(pictures);
           break;
 
-        case BUTTONS_ID.random:
-          debounceWrapper(pictures.slice().sort(randomSorting).slice(0, 10));
+        case ButtonsId.RANDOM:
+          debounceWrapper(pictures.slice().sort(randomSorting).slice(RANDOM_FILTER_BEGIN_SLICE, RANDOM_FILTER_SLICE_VALUE));
           break;
 
-        case BUTTONS_ID.discussed:
+        case ButtonsId.DISCUSSED:
           debounceWrapper(pictures.slice().sort(compareComments));
           break;
 

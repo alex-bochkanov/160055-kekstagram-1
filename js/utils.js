@@ -1,8 +1,11 @@
-import {isEscapeKey} from './popup.js';
-const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+import {successTemplate, errorTemplate} from './DOM-consts.js';
+
+const ERROR_TIMEOUT_VALUE = 5000;
+
 const successContainer = successTemplate.cloneNode(true);
 const errorContainer = errorTemplate.cloneNode(true);
+
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const closeSuccessContainer = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -19,30 +22,30 @@ function closeSuccessClick(e) {
 
 const showSuccess = () => {
   document.body.append(successContainer);
-  const successButton = document.querySelector('.success__button');
+  const successButton = successContainer.querySelector('.success__button');
   successButton.addEventListener('click', closeSuccessContainer);
   document.addEventListener('keydown', onDocumentKeydown);
   document.addEventListener('click', closeSuccessClick);
 };
 
-const closeErrorContainer = () => {
+const onCloseErrorContainer = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
-  document.removeEventListener('click', closeAlertClick);
+  document.removeEventListener('click', onCloseAlertClick);
   document.body.removeChild(errorContainer);
 };
 
-function closeAlertClick(e) {
+function onCloseAlertClick(e) {
   const container = document.querySelector('.error__inner');
   if (!container.contains(e.target)) {
-    closeErrorContainer();
+    onCloseErrorContainer();
   }
 }
 
 const showAlert = () => {
   document.body.append(errorContainer);
-  const errorButton = document.querySelector('.error__button');
-  errorButton.addEventListener('click', closeErrorContainer);
-  document.addEventListener('click', closeAlertClick);
+  const errorButton = errorContainer.querySelector('.error__button');
+  errorButton.addEventListener('click', onCloseErrorContainer);
+  document.addEventListener('click', onCloseAlertClick);
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
@@ -65,7 +68,7 @@ const picturesDownloadAlert = () => {
 
   setTimeout(() => {
     alertContainer.remove();
-  }, 5000);
+  }, ERROR_TIMEOUT_VALUE);
 };
 
 function onDocumentKeydown(evt) {
@@ -74,7 +77,7 @@ function onDocumentKeydown(evt) {
     closeSuccessContainer();
   } else if (isEscapeKey(evt) && document.body.querySelector('.error')) {
     evt.preventDefault();
-    closeErrorContainer();
+    onCloseErrorContainer();
   }
 }
 
@@ -110,4 +113,4 @@ const debounce = (callback, timeoutDelay) => {
   };
 };
 
-export {getRandomInteger, getRandomArrayElement, createRandomIdFromRangeGenerator, showSuccess, showAlert, picturesDownloadAlert, debounce};
+export {isEscapeKey, getRandomInteger, getRandomArrayElement, createRandomIdFromRangeGenerator, showSuccess, showAlert, picturesDownloadAlert, debounce};

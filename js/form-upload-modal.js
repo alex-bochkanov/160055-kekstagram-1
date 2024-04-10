@@ -2,19 +2,10 @@ import {isEscapeKey} from './popup.js';
 import {registerPristineValidator} from './form-validator.js';
 import {registerFilters, onHandlerFilterNone, removeFiltersEvents, removeButtonsScaleEvents, destroyNoUiSlider} from './filters.js';
 import {setUploadFormSubmit, resetPristineValidator} from './form-validator.js';
+import {bodyElement, pictureFilterModal, pictureUploadForm, hashtagInput, descriptionInput, uploadFileButton, closeFilterButton, scaleElement, effectsPreviewPicture} from './DOM-consts.js';
+
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
-
-const bodyClassPopup = document.querySelector('body');
-const pictureFilterModal = document.querySelector('.img-upload__overlay');
-const pictureForm = document.querySelector('.img-upload__form');
-
-const hashtagInput = document.querySelector('.text__hashtags');
-const descriptionInput = document.querySelector('.text__description');
-const uploadFileButton = document.getElementById('upload-file');
-const closeFilterButton = document.getElementById('upload-cancel');
-const previewPicture = document.querySelector('.img-upload__preview img');
-const effectsPreviewPicture = document.querySelectorAll('.effects__preview');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt) && !document.body.querySelector('.error')) {
@@ -23,23 +14,23 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-const focusInput = () => {
+const onInputFocus = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-const blurInput = () => {
+const onInputBlur = () => {
   document.addEventListener('keydown', onDocumentKeydown);
-  document.removeEventListener('focus', focusInput);
+  document.removeEventListener('focus', onInputFocus);
 };
 
 const openPictureFilterModal = () => {
   pictureFilterModal.classList.remove('hidden');
-  bodyClassPopup.classList.add('modal-open');
-  hashtagInput.addEventListener('focus', focusInput);
-  hashtagInput.addEventListener('blur', blurInput);
+  bodyElement.classList.add('modal-open');
+  hashtagInput.addEventListener('focus', onInputFocus);
+  hashtagInput.addEventListener('blur', onInputBlur);
 
-  descriptionInput.addEventListener('focus', focusInput);
-  descriptionInput.addEventListener('blur', blurInput);
+  descriptionInput.addEventListener('focus', onInputFocus);
+  descriptionInput.addEventListener('blur', onInputBlur);
 
   registerPristineValidator();
   registerFilters();
@@ -53,9 +44,9 @@ const registerUploadFileButton = () => {
 
     const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
     if (matches) {
-      previewPicture.src = URL.createObjectURL(file);
+      scaleElement.src = URL.createObjectURL(file);
       effectsPreviewPicture.forEach((item) => {
-        item.style.backgroundImage = `url(${previewPicture.src})`;
+        item.style.backgroundImage = `url(${scaleElement.src})`;
       });
     }
     openPictureFilterModal();
@@ -65,14 +56,14 @@ const registerUploadFileButton = () => {
 
 function closePictureFilterModal() {
   pictureFilterModal.classList.add('hidden');
-  bodyClassPopup.classList.remove('modal-open');
+  bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
   closeFilterButton.removeEventListener('keydown', closePictureFilterModal);
-  hashtagInput.removeEventListener('focus', focusInput);
-  hashtagInput.removeEventListener('blur', blurInput);
-  descriptionInput.removeEventListener('focus', focusInput);
-  descriptionInput.removeEventListener('blur', blurInput);
-  pictureForm.reset();
+  hashtagInput.removeEventListener('focus', onInputFocus);
+  hashtagInput.removeEventListener('blur', onInputBlur);
+  descriptionInput.removeEventListener('focus', onInputFocus);
+  descriptionInput.removeEventListener('blur', onInputBlur);
+  pictureUploadForm.reset();
   resetPristineValidator();
   removeButtonsScaleEvents();
   onHandlerFilterNone();

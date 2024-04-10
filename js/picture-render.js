@@ -1,7 +1,5 @@
 import {openPictureModal} from './popup.js';
-
-const picturesRoot = document.querySelector('.pictures');
-const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+import {picturesRoot, pictureTemplate} from './DOM-consts.js';
 
 const createPicture = ({url, likes, comments, description}) => {
   const pictureElement = pictureTemplate.cloneNode(true);

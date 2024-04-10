@@ -1,31 +1,30 @@
 import {SETTING_FILTER_CHROME, SETTING_FILTER_SEPIA, SETTING_FILTER_MARVIN, SETTING_FILTER_PHOBOS, SETTING_FILTER_HEAT} from './filter-settings.js';
+import {scaleElement, valueElement, buttonMinus, buttonPlus, sliderBlock, sliderElement, sliderEffectLevel, filterChrome, filterSepia, filterMarvin, filterPhobos, filterHeat, filterNone} from './DOM-consts.js';
 
-const wrapper = document.querySelector('.img-upload__overlay');
+const SCALE_STEP_VALUE = 25;
+const MIN_SCALE_VALUE = 25;
+const MAX_SCALE_VALUE = 100;
+const FULL_PERCENT = 100;
 
-const scaleElement = wrapper.querySelector('.img-upload__preview img');
-const valueElement = wrapper.querySelector('.scale__control--value');
-const buttonMinus = wrapper.querySelector('.scale__control--smaller');
-const buttonPlus = wrapper.querySelector('.scale__control--bigger');
+const NoUiSliderParameters = {
+  RANGE: {
+    MIN: 0,
+    MAX: 100,
+  },
+  START_DEFAULT: 100,
+  STEP_DEFAULT: 1,
+  CONNECT: 'lower',
+};
 
-const sliderBlockClass = wrapper.querySelector('.img-upload__effect-level');
-const sliderElement = wrapper.querySelector('.effect-level__slider');
-const sliderEffectLevel = wrapper.querySelector('.effect-level__value');
-const filterChrome = wrapper.querySelector('.effects__preview--chrome');
-const filterSepia = wrapper.querySelector('.effects__preview--sepia');
-const filterMarvin = wrapper.querySelector('.effects__preview--marvin');
-const filterPhobos = wrapper.querySelector('.effects__preview--phobos');
-const filterHeat = wrapper.querySelector('.effects__preview--heat');
-const filterNone = wrapper.querySelector('.effects__preview--none');
-
-let procentScaleValue = 100;
+let procentScaleValue = MAX_SCALE_VALUE;
 let procentHalf = 0;
 
 const onHandlerButtonPlus = () => {
-  if (procentScaleValue === 100) {
+  if (procentScaleValue === MAX_SCALE_VALUE) {
     buttonPlus.classList.add('disabled');
   } else {
-    procentScaleValue = procentScaleValue + 25;
-    procentHalf = procentScaleValue / 100;
+    procentScaleValue = procentScaleValue + SCALE_STEP_VALUE;
+    procentHalf = procentScaleValue / FULL_PERCENT;
     valueElement.value = `${procentScaleValue}%`;
     scaleElement.style.transform = `scale(${procentHalf})`;
     buttonPlus.classList.remove('disabled');
@@ -34,11 +33,11 @@ const onHandlerButtonPlus = () => {
 };
 
 const onHandlerButtonMinus = () => {
-  if (procentScaleValue === 25) {
+  if (procentScaleValue === MIN_SCALE_VALUE) {
     buttonMinus.classList.add('disabled');
   } else {
-    procentScaleValue = procentScaleValue - 25;
-    procentHalf = procentScaleValue / 100;
+    procentScaleValue = procentScaleValue - SCALE_STEP_VALUE;
+    procentHalf = procentScaleValue / FULL_PERCENT;
     valueElement.value = `${procentScaleValue}%`;
     scaleElement.style.transform = `scale(${procentHalf})`;
     buttonMinus.classList.remove('disabled');
@@ -48,7 +47,7 @@ const onHandlerButtonMinus = () => {
 
 const registerButtonsEventsScale = () => {
   buttonPlus.classList.add('disabled');
-  procentScaleValue = 100;
+  procentScaleValue = MAX_SCALE_VALUE;
   valueElement.value = `${procentScaleValue}%`;
   scaleElement.style.transform = 'scale(1)';
 
@@ -69,12 +68,12 @@ const destroyNoUiSlider = () => {
 const createNoUiSlider = () => {
   noUiSlider.create(sliderElement, {
     range: {
-      min: 0,
-      max: 100,
+      min: NoUiSliderParameters.RANGE.MIN,
+      max: NoUiSliderParameters.RANGE.MAX,
     },
-    start: 100,
-    step: 1,
-    connect: 'lower',
+    start: NoUiSliderParameters.START_DEFAULT,
+    step: NoUiSliderParameters.STEP_DEFAULT,
+    connect: NoUiSliderParameters.CONNECT,
     format: {
       to: function (value) {
         if (Number.isInteger(value)) {
@@ -90,45 +89,45 @@ const createNoUiSlider = () => {
 };
 
 const filterInputHide = () => {
-  sliderBlockClass.classList.add('hidden');
+  sliderBlock.classList.add('hidden');
 };
 
 const filterInputAdd = () => {
-  sliderBlockClass.classList.remove('hidden');
+  sliderBlock.classList.remove('hidden');
 };
 
 const onHandlerFilterNone = () => {
-  scaleElement.className = 'effects__preview--none';
+  scaleElement.className = 'effect-none';
   filterInputHide();
   scaleElement.style.removeProperty('filter');
 };
 
 const onHandlerFilterChrome = () => {
-  scaleElement.className = 'effects__preview--chrome';
+  scaleElement.className = 'effect-chrome';
   filterInputAdd();
   sliderElement.noUiSlider.updateOptions(SETTING_FILTER_CHROME);
 };
 
 const onHandlerFilterSepia = () => {
-  scaleElement.className = 'effects__preview--sepia';
+  scaleElement.className = 'effect-sepia';
   filterInputAdd();
   sliderElement.noUiSlider.updateOptions(SETTING_FILTER_SEPIA);
 };
 
 const onHandlerFilterMarvin = () => {
-  scaleElement.className = 'effects__preview--marvin';
+  scaleElement.className = 'effect-marvin';
   filterInputAdd();
   sliderElement.noUiSlider.updateOptions(SETTING_FILTER_MARVIN);
 };
 
 const onHandlerFilterPhobos = () => {
-  scaleElement.className = 'effects__preview--phobos';
+  scaleElement.className = 'effect-phobos';
   filterInputAdd();
   sliderElement.noUiSlider.updateOptions(SETTING_FILTER_PHOBOS);
 };
 
 const onHandlerFilterHeat = () => {
-  scaleElement.className = 'effects__preview--heat';
+  scaleElement.className = 'effect-heat';
   filterInputAdd();
   sliderElement.noUiSlider.updateOptions(SETTING_FILTER_HEAT);
 };
@@ -155,23 +154,23 @@ const registerFilters = () => {
   scaleElement.classList.add('effects__preview--none');
   sliderElement.noUiSlider.on('update', () => {
     sliderEffectLevel.value = sliderElement.noUiSlider.get();
-    if (scaleElement.className === filterChrome.classList[1]) {
+    if (scaleElement.className === filterChrome.id) {
 
       scaleElement.style.filter = `grayscale(${sliderElement.noUiSlider.get()})`;
 
-    } else if (scaleElement.className === filterSepia.classList[1]) {
+    } else if (scaleElement.className === filterSepia.id) {
 
       scaleElement.style.filter = `sepia(${sliderElement.noUiSlider.get()})`;
 
-    } else if (scaleElement.className === filterMarvin.classList[1]) {
+    } else if (scaleElement.className === filterMarvin.id) {
 
       scaleElement.style.filter = `invert(${sliderElement.noUiSlider.get()}%)`;
 
-    } else if (scaleElement.className === filterPhobos.classList[1]) {
+    } else if (scaleElement.className === filterPhobos.id) {
 
       scaleElement.style.filter = `blur(${sliderElement.noUiSlider.get()}px)`;
 
-    } else if (scaleElement.className === filterHeat.classList[1]) {
+    } else if (scaleElement.className === filterHeat.id) {
 
       scaleElement.style.filter = `brightness(${sliderElement.noUiSlider.get()})`;
 
