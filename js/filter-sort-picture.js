@@ -14,7 +14,8 @@ const ButtonsId = {
 };
 
 const debounceWrapper = debounce((pictures) => {
-  clearPictureContainer(); addPictures(pictures);
+  clearPictureContainer();
+  addPictures(pictures);
 }, RENDER_DELAY);
 
 const getCommentsValue = (picture) => {
@@ -55,7 +56,6 @@ const registerFilterEvent = (pictures) => {
   imgSortFilters.querySelectorAll('.img-filters__button').forEach((item) => {
     item.addEventListener('click', () => {
       toggleActiveButton(item);
-      clearPictureContainer();
       switch (item.getAttribute('id')) {
         case ButtonsId.DEFAULT:
           debounceWrapper(pictures);
